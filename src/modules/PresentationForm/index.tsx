@@ -17,11 +17,11 @@ interface IPresentationForm {
 
 interface IProps {
   show: boolean;
-  close: () => void;
-  reload: any;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  reload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PresentationForm: React.FC<IProps> = ({ show, close, reload }) => {
+const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
   const presentationValidationSchema = Yup.object({
     details: Yup.string().required("Details is required."),
     room: Yup.string().required("Room is required."),
@@ -57,6 +57,7 @@ const PresentationForm: React.FC<IProps> = ({ show, close, reload }) => {
         });
         const content = await data.json();
         reload(true);
+        setShowModal(false);
         return content;
       } catch (err) {
         console.log(err)

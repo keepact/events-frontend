@@ -14,10 +14,10 @@ interface IAttendeeForm {
 
 interface IProps {
   show: boolean;
-  close: () => void;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
+const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
   const attendeeValidationSchema = Yup.object({
     name: Yup.string().required("Name is required."),
     company: Yup.string().required("Company is required."),
@@ -39,6 +39,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
         body: JSON.stringify(attendee)
       });
       const content = await data.json();
+      setShowModal(false);
       return content;
     },
     [],

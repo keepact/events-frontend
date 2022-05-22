@@ -16,11 +16,11 @@ interface IAddAttendeeToPresentatioForm {
 
 interface IProps {
   show: boolean;
-  close: () => void;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   presentations: IPresentation[];
 }
 
-const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, close }) => {
+const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, setShowModal }) => {
   const addAttendeeToPresentatioFormValidationSchema = Yup.object({
     email: Yup.string().email().required("Email is required."),
     presentationId: Yup.string().required("Presentation id is required."),
@@ -41,6 +41,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, c
         },
       });
       const content = await data.json();
+      setShowModal(false);
       return content;
     },
     [],

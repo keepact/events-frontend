@@ -60,7 +60,7 @@ function App() {
               Add Presentation
             </Button>
             <PresentationForm
-              close={() => setShowPresentationForm(false)}
+              setShowModal={setShowPresentationForm}
               show={showPresentationForm}
               reload={setReload}
             />
@@ -70,7 +70,7 @@ function App() {
               Add Attendee
             </Button>
             <AttendeeForm
-              close={() => setShowAttendeForm(false)}
+              setShowModal={setShowAttendeForm}
               show={showAttendeForm}
             />
           </div>
@@ -80,7 +80,7 @@ function App() {
             Add Attendee to Presentation
           </Button>
           <AddAttendeeToPresentatioForm
-            close={() => setShowAddAttendeToPresentation(false)}
+            setShowModal={setShowAddAttendeToPresentation}
             show={showAddAttendeToPresentation}
             presentations={presentations}
           />
