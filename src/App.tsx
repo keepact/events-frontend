@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-import { PresentationForm } from './components/PresentationForm';
-import { AttendeeForm } from './components/AttendeeForm';
+import { PresentationForm } from './modules/PresentationForm';
+import { AttendeeForm } from './modules/AttendeeForm';
 
 import logo from './logo.svg'
 import './App.css'
-import { AddAttendeeToPresentatioForm } from './components/AddAttendeeToPresentatioForm';
+import { AddAttendeeToPresentatioForm } from './modules/AddAttendeeToPresentatioForm';
 import { IPresentation } from './@types';
 
 function App() {
