@@ -6,7 +6,7 @@ import {
   FloatingLabel,
   FormSelectProps,
 } from "react-bootstrap";
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 
 interface ISelectProps extends FormSelectProps {
   label?: string;
