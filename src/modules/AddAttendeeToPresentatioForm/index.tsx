@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "../Input";
-import { Select } from "../Select";
+import { Input } from "../../components/Input";
+import { Select } from "../../components/Select";
 
 import { Form, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
