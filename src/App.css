@@ -13,6 +13,13 @@
   }
 }
 
+@media screen and (max-width: 400px) {
+  .custom {
+    margin-top: 40px !important;
+  }
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -32,6 +39,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
