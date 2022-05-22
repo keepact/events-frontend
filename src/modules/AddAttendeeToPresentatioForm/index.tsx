@@ -33,7 +33,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
 
   const onSubmit = useCallback<SubmitHandler<IAddAttendeeToPresentatioForm>>(
     async attendee => {
-      const data = await fetch(`http://localhost:3001/presentations/${attendee.presentationId}/attendees/${attendee.email}`, {
+      const data = await fetch(`${import.meta.env.VITE_BASE_URL}/presentations/${attendee.presentationId}/attendees/${attendee.email}`, {
         method: "PUT",
         headers: {
           'Accept': 'application/json',

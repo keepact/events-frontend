@@ -47,7 +47,7 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
       const presentation = { details, room: +room, speaker }
 
       try {
-        const data = await fetch("http://localhost:3001/presentation", {
+        const data = await fetch(`${import.meta.env.VITE_BASE_URL}/presentation`, {
           method: "POST",
           headers: {
             'Accept': 'application/json',

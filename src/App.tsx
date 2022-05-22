@@ -23,7 +23,7 @@ function App() {
   const getPresentions = useCallback(
     async () => {
       try {
-        const data = await fetch("http://localhost:3001/presentations", {
+        const data = await fetch(`${import.meta.env.VITE_BASE_URL}/presentations`, {
           method: "GET",
           headers: {
             'Accept': 'application/json',

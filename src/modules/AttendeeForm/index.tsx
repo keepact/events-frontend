@@ -30,7 +30,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
 
   const onSubmit = useCallback<SubmitHandler<IAttendeeForm>>(
     async attendee => {
-      const data = await fetch("http://localhost:3001/attendees", {
+      const data = await fetch(`${import.meta.env.VITE_BASE_URL}/attendees`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
