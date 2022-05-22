@@ -6,6 +6,7 @@ import logo from './logo.svg'
 import './App.css'
 import { AddAttendeeToPresentatioForm } from './modules/AddAttendeeToPresentatioForm';
 import { IPresentation } from './@types';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [presentations, setPresentations] = useState<IPresentation[]>([])
