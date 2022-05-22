@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Button, Container } from 'react-bootstrap'
+import { Button, Col, Container, Row } from 'react-bootstrap'
 
 import logo from './logo.svg'
 import { IPresentation } from './@types'
@@ -7,18 +7,21 @@ import { IPresentation } from './@types'
 import { AddAttendeeToPresentatioForm } from './modules/AddAttendeeToPresentatioForm'
 import { PresentationForm } from './modules/PresentationForm'
 import { AttendeeForm } from './modules/AttendeeForm'
+import { PresentationList } from './modules/PresentationList'
 
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
 function App() {
   const [presentations, setPresentations] = useState<IPresentation[]>([])
-  const [showPresentationForm, setShowPresentationForm] = useState(false);
-  const [showAttendeForm, setShowAttendeForm] = useState(false);
-  const [showAddAttendeToPresentation, setShowAddAttendeToPresentation] = useState(false);
 
-  const [reload, setReload] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [showPresentationForm, setShowPresentationForm] = useState(false)
+  const [showAttendeForm, setShowAttendeForm] = useState(false)
+  const [showAddAttendeToPresentation, setShowAddAttendeToPresentation] = useState(false)
+  const [showPresentationList, setShowPresentationList] = useState(false)
+
+  const [reload, setReload] = useState(false)
+  const [firstLoad, setFirstLoad] = useState(true)
 
   const getPresentions = useCallback(
     async () => {
@@ -54,36 +57,50 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p className="mt-5">Welcome!</p>
         <Container className="py-2 flex-column">
-          <div className="mt-5">
-            <Button variant="primary" onClick={() => setShowPresentationForm(true)}>
-              Add Presentation
-            </Button>
-            <PresentationForm
-              setShowModal={setShowPresentationForm}
-              show={showPresentationForm}
-              reload={setReload}
-            />
-          </div>
-          <div className="mt-5">
-            <Button variant="primary" onClick={() => setShowAttendeForm(true)}>
-              Add Attendee
-            </Button>
-            <AttendeeForm
-              setShowModal={setShowAttendeForm}
-              show={showAttendeForm}
-            />
-          </div>
+          <Row>
+            <Col>
+              <Button variant="primary" onClick={() => setShowPresentationForm(true)}>
+                Add Presentation
+              </Button>
+              <PresentationForm
+                setShowModal={setShowPresentationForm}
+                show={showPresentationForm}
+                reload={setReload}
+              />
+            </Col>
+            <Col>
+              <Button variant="primary" onClick={() => setShowAttendeForm(true)}>
+                Add Attendee
+              </Button>
+              <AttendeeForm
+                setShowModal={setShowAttendeForm}
+                show={showAttendeForm}
+              />
+            </Col>
+            <Col className="custom">
+              <Button variant="primary" onClick={() => setShowAddAttendeToPresentation(true)}>
+                Add Attendee to Presentation
+              </Button>
+              <AddAttendeeToPresentatioForm
+                setShowModal={setShowAddAttendeToPresentation}
+                show={showAddAttendeToPresentation}
+                presentations={presentations}
+              />
+            </Col>
+          </Row>
+          <Row className="mt-5">
+            <Col>
+              <Button variant="primary" onClick={() => setShowPresentationList(true)}>
+                View All Presentations
+              </Button>
+              <PresentationList
+                presentations={presentations}
+                setShowModal={setShowPresentationList}
+                show={showPresentationList}
+              />
+            </Col>
+          </Row>
         </Container>
-        <div className="mt-5">
-          <Button variant="primary" onClick={() => setShowAddAttendeToPresentation(true)}>
-            Add Attendee to Presentation
-          </Button>
-          <AddAttendeeToPresentatioForm
-            setShowModal={setShowAddAttendeToPresentation}
-            show={showAddAttendeToPresentation}
-            presentations={presentations}
-          />
-        </div>
       </header>
     </div>
   )
