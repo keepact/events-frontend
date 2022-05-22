@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useCallback } from "react";
 import { IPresentation } from "../../@types";
 
-
 interface IAddAttendeeToPresentatioForm {
   email: string;
   presentationId: string;
@@ -29,7 +28,6 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
   const { register, handleSubmit, formState: { errors } } = useForm<IAddAttendeeToPresentatioForm>({
     resolver: yupResolver(addAttendeeToPresentatioFormValidationSchema),
   });
-
 
   const onSubmit = useCallback<SubmitHandler<IAddAttendeeToPresentatioForm>>(
     async attendee => {

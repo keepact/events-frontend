@@ -5,7 +5,6 @@ import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCallback } from "react";
 
-
 interface IPresentationForm {
   details: string;
   room: number;
