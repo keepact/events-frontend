@@ -63,8 +63,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, c
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Attendee Email"
-                  text="Please input the attendee email"
+                  label="Attendee Email*"
                   error={errors.email?.message}
                 />
               </Col>
@@ -74,8 +73,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, c
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Presentation ID"
-                  text="Please input the presentation ID"
+                  label="Presentation ID*"
                   error={errors.presentationId?.message}
                   as="div"
                 >

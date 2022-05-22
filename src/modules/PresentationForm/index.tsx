@@ -23,7 +23,7 @@ interface IProps {
 const PresentationForm: React.FC<IProps> = ({ show, close }) => {
   const presentationValidationSchema = Yup.object({
     details: Yup.string().required("Details is required."),
-    room: Yup.number().required("Room is required."),
+    room: Yup.string().required("Room is required."),
     speakerName: Yup.string().required("Speaker Name is required."),
     speakerCompany: Yup.string().required("Speaker Company is required."),
     speakerEmail: Yup.string().required("Speaker Email is required."),
@@ -66,8 +66,7 @@ const PresentationForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Details"
-                  text="Please input the event details"
+                  label="Details*"
                   error={errors.details?.message}
                 />
               </Col>
@@ -77,21 +76,19 @@ const PresentationForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Room"
-                  text="Please input the event room"
+                  label="Room*"
                   error={errors.room?.message}
                 />
               </Col>
             </Row>
-            <Row>
+            <Row className="mt-3">
               <Col>
                 <Input
                   {...register("speakerName")}
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Speaker Name"
-                  text="Please input the speaker name"
+                  label="Speaker Name*"
                   error={errors.speakerName?.message}
                 />
               </Col>
@@ -101,21 +98,19 @@ const PresentationForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Speaker Company"
-                  text="Please input the speaker company"
+                  label="Speaker Company*"
                   error={errors.speakerCompany?.message}
                 />
               </Col>
             </Row>
-            <Row>
+            <Row className="mt-3">
               <Col>
                 <Input
                   {...register("speakerEmail")}
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Speaker Email"
-                  text="Please input the speaker email"
+                  label="Speaker Email*"
                   error={errors.speakerEmail?.message}
                 />
               </Col>
@@ -125,8 +120,7 @@ const PresentationForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Speaker Bio"
-                  text="Please input the speaker email"
+                  label="Speaker Bio*"
                   error={errors.speakerBio?.message}
                 />
               </Col>

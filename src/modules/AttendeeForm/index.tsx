@@ -20,8 +20,8 @@ interface IProps {
 const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
   const attendeeValidationSchema = Yup.object({
     name: Yup.string().required("Name is required."),
-    company: Yup.number().required("Company is required."),
-    email: Yup.string().required("Email Name is required."),
+    company: Yup.string().required("Company is required."),
+    email: Yup.string().required("Email is required."),
   });
 
   const { register, handleSubmit, formState: { errors } } = useForm<IAttendeeForm>({
@@ -60,8 +60,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Attendee Name"
-                  text="Please input the attendee name"
+                  label="Attendee Name*"
                   error={errors.name?.message}
                 />
               </Col>
@@ -71,8 +70,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Attendee Company"
-                  text="Please input the attendee company"
+                  label="Attendee Company*"
                   error={errors.company?.message}
                 />
               </Col>
@@ -84,8 +82,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
                   containerProps={{
                     className: "col-auto",
                   }}
-                  label="Attendee Email"
-                  text="Please input the attendee email"
+                  label="Attendee Email*"
                   error={errors.email?.message}
                 />
               </Col>
