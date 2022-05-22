@@ -6,10 +6,14 @@ import logo from './logo.svg'
 import './App.css'
 import { AddAttendeeToPresentatioForm } from './modules/AddAttendeeToPresentatioForm';
 import { IPresentation } from './@types';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   const [presentations, setPresentations] = useState<IPresentation[]>([])
+  const [showPresentationForm, setShowPresentationForm] = useState(false);
+  const [showAttendeForm, setShowAttendeForm] = useState(false);
+  const [showAddAttendeToPresentation, setShowAddAttendeToPresentation] = useState(false);
 
   const getPresentions = useCallback(
     async () => {
@@ -36,24 +40,36 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome!</p>
-        <div>
-          <div>
-            <p>Add Presentation</p>
+        <p className="mt-5">Welcome!</p>
+        <Container className="py-2 flex-column">
+          <div className="mt-5">
+            <Button variant="primary" onClick={() => setShowPresentationForm(true)}>
+              Add Presentation
+            </Button>
+            <PresentationForm
+              close={() => setShowPresentationForm(false)}
+              show={showPresentationForm}
+            />
           </div>
-          <PresentationForm />
-        </div>
-        <div>
-          <div>
-            <p>Add Attendee</p>
+          <div className="mt-5">
+            <Button variant="primary" onClick={() => setShowAttendeForm(true)}>
+              Add Attendee
+            </Button>
+            <AttendeeForm
+              close={() => setShowAttendeForm(false)}
+              show={showAttendeForm}
+            />
           </div>
-          <AttendeeForm />
-        </div>
-        <div>
-          <div>
-            <p>Add Attendee to presentation</p>
-          </div>
-          <AddAttendeeToPresentatioForm presentations={presentations} />
+        </Container>
+        <div className="mt-5">
+          <Button variant="primary" onClick={() => setShowAddAttendeToPresentation(true)}>
+            Add Attendee to Presentation
+          </Button>
+          <AddAttendeeToPresentatioForm
+            close={() => setShowAddAttendeToPresentation(false)}
+            show={showAddAttendeToPresentation}
+            presentations={presentations}
+          />
         </div>
       </header>
     </div>

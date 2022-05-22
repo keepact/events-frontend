@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../../components/Input";
-import { Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCallback } from "react";
 
@@ -12,7 +12,12 @@ interface IAttendeeForm {
   email: number;
 }
 
-const AttendeeForm: React.FC = () => {
+interface IProps {
+  show: boolean;
+  close: () => void;
+}
+
+const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
   const attendeeValidationSchema = Yup.object({
     name: Yup.string().required("Name is required."),
     company: Yup.number().required("Company is required."),
@@ -41,45 +46,62 @@ const AttendeeForm: React.FC = () => {
   );
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Row>
-        <Input
-          {...register("name")}
-          containerProps={{
-            className: "col-auto",
-          }}
-          label="Attendee Name"
-          text="Please input the attendee name"
-          error={errors.name?.message}
-        />
-      </Row>
-      <Row>
-        <Input
-          {...register("company")}
-          containerProps={{
-            className: "col-auto",
-          }}
-          label="Attendee Company"
-          text="Please input the attendee company"
-          error={errors.company?.message}
-        />
-      </Row>
-      <Row>
-        <Input
-          {...register("email")}
-          containerProps={{
-            className: "col-auto",
-          }}
-          label="Attendee Email"
-          text="Please input the attendee email"
-          error={errors.email?.message}
-        />
-      </Row>
-      <button type="submit">
-        Add Attendee
-      </button>
-    </Form>
-
+    <Modal show={show} onHide={close}>
+      <Modal.Header closeButton>
+        <Modal.Title>Add Attendee</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Container>
+            <Row>
+              <Col>
+                <Input
+                  {...register("name")}
+                  containerProps={{
+                    className: "col-auto",
+                  }}
+                  label="Attendee Name"
+                  text="Please input the attendee name"
+                  error={errors.name?.message}
+                />
+              </Col>
+              <Col>
+                <Input
+                  {...register("company")}
+                  containerProps={{
+                    className: "col-auto",
+                  }}
+                  label="Attendee Company"
+                  text="Please input the attendee company"
+                  error={errors.company?.message}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6}>
+                <Input
+                  {...register("email")}
+                  containerProps={{
+                    className: "col-auto",
+                  }}
+                  label="Attendee Email"
+                  text="Please input the attendee email"
+                  error={errors.email?.message}
+                />
+              </Col>
+            </Row>
+          </Container>
+        </Form >
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={close}>
+          Close
+        </Button>
+        <Button type="submit" variant="primary" onClick={handleSubmit(onSubmit)}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
 
