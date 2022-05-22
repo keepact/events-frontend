@@ -21,17 +21,16 @@ const AttendeeForm: React.FC<IProps> = ({ show, close }) => {
   const attendeeValidationSchema = Yup.object({
     name: Yup.string().required("Name is required."),
     company: Yup.string().required("Company is required."),
-    email: Yup.string().required("Email is required."),
+    email: Yup.string().email().required("Email is required."),
   });
 
   const { register, handleSubmit, formState: { errors } } = useForm<IAttendeeForm>({
     resolver: yupResolver(attendeeValidationSchema),
   });
 
-
   const onSubmit = useCallback<SubmitHandler<IAttendeeForm>>(
     async attendee => {
-      const data = await fetch("/attendees", {
+      const data = await fetch("http://localhost:3001/attendees", {
         method: "POST",
         headers: {
           'Accept': 'application/json',

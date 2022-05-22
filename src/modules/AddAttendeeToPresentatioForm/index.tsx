@@ -22,7 +22,7 @@ interface IProps {
 
 const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, close }) => {
   const addAttendeeToPresentatioFormValidationSchema = Yup.object({
-    email: Yup.string().required("Email is required."),
+    email: Yup.string().email().required("Email is required."),
     presentationId: Yup.string().required("Presentation id is required."),
   });
 
@@ -33,7 +33,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, c
 
   const onSubmit = useCallback<SubmitHandler<IAddAttendeeToPresentatioForm>>(
     async attendee => {
-      const data = await fetch(`/presentations/:${attendee.presentationId}/attendees/:${attendee.email}`, {
+      const data = await fetch(`http://localhost:3001/presentations/${attendee.presentationId}/attendees/${attendee.email}`, {
         method: "PUT",
         headers: {
           'Accept': 'application/json',
@@ -45,8 +45,6 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, c
     },
     [],
   );
-
-
 
   return (
     <Modal show={show} onHide={close}>
@@ -75,10 +73,9 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, c
                   }}
                   label="Presentation ID*"
                   error={errors.presentationId?.message}
-                  as="div"
                 >
                   {presentations && presentations.map(presentation =>
-                    <option value={presentation.id}>{presentation.id}</option>
+                    <option key={presentation.id} value={presentation.id}>{presentation.id}</option>
                   )}
                 </Select>
               </Col>

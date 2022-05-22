@@ -18,15 +18,16 @@ interface IPresentationForm {
 interface IProps {
   show: boolean;
   close: () => void;
+  reload: any;
 }
 
-const PresentationForm: React.FC<IProps> = ({ show, close }) => {
+const PresentationForm: React.FC<IProps> = ({ show, close, reload }) => {
   const presentationValidationSchema = Yup.object({
     details: Yup.string().required("Details is required."),
     room: Yup.string().required("Room is required."),
     speakerName: Yup.string().required("Speaker Name is required."),
     speakerCompany: Yup.string().required("Speaker Company is required."),
-    speakerEmail: Yup.string().required("Speaker Email is required."),
+    speakerEmail: Yup.string().email().required("Speaker Email is required."),
     speakerBio: Yup.string().required("Speaker Bio is required."),
   });
 
@@ -34,19 +35,32 @@ const PresentationForm: React.FC<IProps> = ({ show, close }) => {
     resolver: yupResolver(presentationValidationSchema),
   });
 
-
   const onSubmit = useCallback<SubmitHandler<IPresentationForm>>(
-    async presentation => {
-      const data = await fetch("/presentation", {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(presentation)
-      });
-      const content = await data.json();
-      return content;
+    async ({ details, room, speakerBio, speakerCompany, speakerEmail, speakerName }) => {
+      const speaker = {
+        email: speakerEmail,
+        name: speakerName,
+        company: speakerCompany,
+        bio: speakerBio
+      }
+
+      const presentation = { details, room: +room, speaker }
+
+      try {
+        const data = await fetch("http://localhost:3001/presentation", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(presentation)
+        });
+        const content = await data.json();
+        reload(true);
+        return content;
+      } catch (err) {
+        console.log(err)
+      }
     },
     [],
   );

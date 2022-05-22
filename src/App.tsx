@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
-import { PresentationForm } from './modules/PresentationForm';
-import { AttendeeForm } from './modules/AttendeeForm';
+import { Button, Container } from 'react-bootstrap'
 
 import logo from './logo.svg'
+import { IPresentation } from './@types'
+
+import { AddAttendeeToPresentatioForm } from './modules/AddAttendeeToPresentatioForm'
+import { PresentationForm } from './modules/PresentationForm'
+import { AttendeeForm } from './modules/AttendeeForm'
+
 import './App.css'
-import { AddAttendeeToPresentatioForm } from './modules/AddAttendeeToPresentatioForm';
-import { IPresentation } from './@types';
-import { Button, Container } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
 
 function App() {
   const [presentations, setPresentations] = useState<IPresentation[]>([])
@@ -15,26 +17,37 @@ function App() {
   const [showAttendeForm, setShowAttendeForm] = useState(false);
   const [showAddAttendeToPresentation, setShowAddAttendeToPresentation] = useState(false);
 
+  const [reload, setReload] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+
   const getPresentions = useCallback(
     async () => {
-      const data = await fetch("/presentations", {
-        method: "GET",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      });
-      const content = await data.json();
-      setPresentations(content)
+      try {
+        const data = await fetch("http://localhost:3001/presentations", {
+          method: "GET",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        });
+        const content = await data.json();
+        if (firstLoad) setFirstLoad(false);
+
+        setPresentations(content)
+        setReload(false);
+      } catch (error) {
+        console.log(error, "error");
+      }
+
     },
     [presentations],
   );
 
   useEffect(() => {
-    if (presentations.length > 0) {
+    if (reload || firstLoad) {
       getPresentions()
     }
-  }, [presentations, getPresentions]);
+  }, [reload, getPresentions]);
 
   return (
     <div className="App">
@@ -49,6 +62,7 @@ function App() {
             <PresentationForm
               close={() => setShowPresentationForm(false)}
               show={showPresentationForm}
+              reload={setReload}
             />
           </div>
           <div className="mt-5">
