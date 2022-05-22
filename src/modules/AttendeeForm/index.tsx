@@ -45,7 +45,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
   );
 
   return (
-    <Modal show={show} onHide={close}>
+    <Modal show={show} onHide={() => setShowModal(false)}>
       <Modal.Header closeButton>
         <Modal.Title>Add Attendee</Modal.Title>
       </Modal.Header>
@@ -90,7 +90,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
         </Form >
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={close}>
+        <Button variant="secondary" onClick={() => setShowModal(false)}>
           Close
         </Button>
         <Button type="submit" variant="primary" onClick={handleSubmit(onSubmit)}>
