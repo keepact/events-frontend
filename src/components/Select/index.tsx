@@ -5,8 +5,10 @@ import {
   FormTextProps,
   FloatingLabel,
   FormSelectProps,
+  FloatingLabelProps,
 } from "react-bootstrap";
 import { forwardRef } from "react";
+import { BsPrefixRefForwardingComponent } from "react-bootstrap/esm/helpers";
 
 interface ISelectProps extends FormSelectProps {
   label?: string;
@@ -40,7 +42,7 @@ const Select = forwardRef<ISelectRef, ISelectProps>(
     },
     ref,
   ) => {
-    const ParentComponent = floatingLabel ? FloatingLabel : Form.Group;
+    const ParentComponent: any | BsPrefixRefForwardingComponent<"div", FormGroupProps> = floatingLabel ? FloatingLabel : Form.Group;
     return (
       <ParentComponent
         as={as}
