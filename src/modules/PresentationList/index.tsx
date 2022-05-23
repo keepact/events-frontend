@@ -26,19 +26,17 @@ const PresentationList: React.FC<IProps> = ({ presentations, show, setShowModal 
               ))}
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              {presentations[0] && presentations.map(presentation => (
-                <Fragment key={presentation.id}>
-                  <td>{presentation.id}</td>
-                  <td>{presentation.details}</td>
-                  <td>{presentation.room}</td>
-                  <td>{presentation.speaker.name}</td>
-                  <td>{presentation.attendees?.map(attendee => attendee.name).join(", ")}</td>
-                </Fragment>
-              ))}
-            </tr>
-          </tbody>
+          {presentations[0] && presentations.map(presentation => (
+            <tbody key={presentation.id}>
+              <tr>
+                <td>{presentation.id}</td>
+                <td>{presentation.details}</td>
+                <td>{presentation.room}</td>
+                <td>{presentation.speaker.name}</td>
+                <td>{presentation.attendees?.map(attendee => attendee.name).join(", ")}</td>
+              </tr>
+            </tbody>
+          ))}
         </Table>
       </Modal.Body>
       <Modal.Footer>
