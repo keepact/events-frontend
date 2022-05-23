@@ -54,8 +54,8 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
             setShowModal(false);
           }, 2000)
         }
-      } catch ({ error }) {
-        setShowToast({ isError: true, visible: true, errorMessage: error })
+      } catch (error: any | string) {
+        setShowToast({ isError: true, visible: true, errorMessage: !!error.error ? error.error : error })
       }
     },
     [],

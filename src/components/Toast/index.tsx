@@ -15,7 +15,11 @@ interface IProps {
 const Toast: React.FC<IProps> = ({ showToast, setShowToast, message }) => {
   return (
     <BootstrapToast
-      onClose={() => setShowToast({ isError: showToast.isError, visible: false })}
+      onClose={() => setShowToast({
+        isError: showToast.isError,
+        visible: false,
+        errorMessage: showToast.isError && message,
+      })}
       bg={showToast.isError ? "warning" : "success"}
       autohide
       delay={3000}

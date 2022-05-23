@@ -11,6 +11,8 @@ import { PresentationList } from './modules/PresentationList'
 
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
+import { Toast } from './components/Toast'
+import { IToastState } from "./@types";
 
 function App() {
   const [presentations, setPresentations] = useState<IPresentation[]>([])
@@ -22,6 +24,11 @@ function App() {
 
   const [reload, setReload] = useState(false)
   const [firstLoad, setFirstLoad] = useState(true)
+  const [showToast, setShowToast] = useState<IToastState>({
+    isError: false,
+    visible: false,
+    errorMessage: undefined
+  })
 
   const getPresentions = useCallback(
     async () => {
@@ -38,8 +45,8 @@ function App() {
 
         setPresentations(content)
         setReload(false);
-      } catch (error) {
-        console.log(error, "error");
+      } catch (error: any | string) {
+        setShowToast({ isError: true, visible: true, errorMessage: !!error.error ? error.error : error })
       }
     },
     [presentations],
@@ -54,6 +61,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Toast
+          message={`${showToast.errorMessage}`}
+          showToast={showToast}
+          setShowToast={setShowToast}
+        />
         <img src={logo} className="App-logo" alt="logo" />
         <p className="mt-5">Welcome!</p>
         <Container className="py-2 flex-column">

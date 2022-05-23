@@ -75,8 +75,8 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
           }, 2000)
         }
         return content;
-      } catch ({ error }) {
-        setShowToast({ isError: true, visible: true, errorMessage: error })
+      } catch (error: any | string) {
+        setShowToast({ isError: true, visible: true, errorMessage: !!error.error ? error.error : error })
       }
     },
     [],
