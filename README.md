@@ -22,11 +22,15 @@ To run locally:
 1 - From the ``root`` folder, you have to install all the project dependecies with the command:
 
     yarn
+    
+2 - Create .env file in the the ``root`` folder with the content:
 
-2 - Now, to ``start`` the project,you have to run:
+    VITE_BASE_URL=https://sucasa-backend.herokuapp.com  
+
+3 - Now, to ``start`` the project, you have to run:
 
     yarn dev
     
-5 - Finally, you can view the website at the address:
+4 - Finally, you can view the website at the address:
 
     http://localhost:3000    
