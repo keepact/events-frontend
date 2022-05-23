@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "start": "serve -s build",
-    "postbuild": "npm run build",
+    "start": "serve -s dist",
     "preview": "vite preview"
   },
   "dependencies": {
