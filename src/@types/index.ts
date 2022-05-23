@@ -19,3 +19,9 @@ export interface IPresentation {
   speaker: ISpeaker
   attendees?: IAttendee[]
 }
+
+export interface IToastState {
+  isError: boolean
+  visible: boolean
+  errorMessage?: string | unknown
+}
