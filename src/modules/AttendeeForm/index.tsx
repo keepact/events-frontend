@@ -32,7 +32,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
     email: Yup.string().email().required("Email is required."),
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<IAttendeeForm>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<IAttendeeForm>({
     resolver: yupResolver(attendeeValidationSchema),
   });
 
@@ -53,7 +53,9 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
         } else {
           setShowToast({ isError: false, visible: true })
           setTimeout(() => {
+            setShowToast({ isError: false, visible: false })
             setShowModal(false);
+            reset()
           }, 2000)
         }
         return content
@@ -116,12 +118,12 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => {
-          setShowModal(false)
           setShowToast({
             isError: showToast.isError,
             visible: false,
             errorMessage: !!showToast.errorMessage && showToast.errorMessage
           })
+          setShowModal(false)
         }}>
           Close
         </Button>

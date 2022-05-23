@@ -29,7 +29,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
     presentationId: Yup.string().required("Presentation id is required."),
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<IAddAttendeeToPresentatioForm>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<IAddAttendeeToPresentatioForm>({
     resolver: yupResolver(addAttendeeToPresentatioFormValidationSchema),
   });
 
@@ -50,7 +50,9 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
         } else {
           setShowToast({ isError: false, visible: true })
           setTimeout(() => {
+            setShowToast({ isError: false, visible: false })
             setShowModal(false);
+            reset();
           }, 2000)
         }
       } catch (error: any | string) {

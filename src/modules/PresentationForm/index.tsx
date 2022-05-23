@@ -39,7 +39,7 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
     speakerBio: Yup.string().required("Speaker Bio is required."),
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<IPresentationForm>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<IPresentationForm>({
     resolver: yupResolver(presentationValidationSchema),
   });
 
@@ -70,7 +70,9 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
         } else {
           setShowToast({ isError: false, visible: true })
           setTimeout(() => {
+            setShowToast({ isError: false, visible: false })
             setShowModal(false);
+            reset()
             reload(true);
           }, 2000)
         }
