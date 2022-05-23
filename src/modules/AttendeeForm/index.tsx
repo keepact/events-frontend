@@ -115,7 +115,14 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
         </Form >
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShowModal(false)}>
+        <Button variant="secondary" onClick={() => {
+          setShowModal(false)
+          setShowToast({
+            isError: showToast.isError,
+            visible: false,
+            errorMessage: !!showToast.errorMessage && showToast.errorMessage
+          })
+        }}>
           Close
         </Button>
         <Button type="submit" variant="primary" onClick={handleSubmit(onSubmit)}>
