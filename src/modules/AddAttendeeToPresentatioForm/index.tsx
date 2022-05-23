@@ -18,10 +18,11 @@ interface IAddAttendeeToPresentatioForm {
 interface IProps {
   show: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  reload: React.Dispatch<React.SetStateAction<boolean>>;
   presentations: IPresentation[];
 }
 
-const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, setShowModal }) => {
+const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, reload, show, setShowModal }) => {
   const [showToast, setShowToast] = useState<IToastState>({ isError: false, visible: false });
 
   const addAttendeeToPresentatioFormValidationSchema = Yup.object({
@@ -53,6 +54,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
             setShowToast({ isError: false, visible: false })
             setShowModal(false);
             reset();
+            reload(true);
           }, 2000)
         }
       } catch (error: any | string) {

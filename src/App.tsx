@@ -97,6 +97,7 @@ function App() {
                 setShowModal={setShowAddAttendeToPresentation}
                 show={showAddAttendeToPresentation}
                 presentations={presentations}
+                reload={setReload}
               />
             </Col>
           </Row>
