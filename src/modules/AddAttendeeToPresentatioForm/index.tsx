@@ -46,7 +46,6 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
         const content = await data.json()
 
         if (content.error) {
-          console.log("error", content.error);
           setShowToast({ isError: true, visible: true, errorMessage: content.error })
         } else {
           setShowToast({ isError: false, visible: true })
