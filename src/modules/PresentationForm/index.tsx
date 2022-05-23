@@ -85,7 +85,7 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
   return (
     <Modal show={show} onHide={() => setShowModal(false)}>
       <Toast
-        message={showToast.isError ? `${showToast.errorMessage ? showToast.errorMessage : ""}` : "Added"}
+        message={showToast.isError ? `${showToast.errorMessage}` : "Added"}
         showToast={showToast}
         setShowToast={setShowToast}
       />

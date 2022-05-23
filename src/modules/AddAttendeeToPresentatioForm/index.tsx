@@ -64,7 +64,7 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
   return (
     <Modal show={show} onHide={() => setShowModal(false)}>
       <Toast
-        message={showToast.isError ? `${showToast.errorMessage ? showToast.errorMessage : ""}` : "Added"}
+        message={showToast.isError ? `${showToast.errorMessage}` : "Added"}
         showToast={showToast}
         setShowToast={setShowToast}
       />

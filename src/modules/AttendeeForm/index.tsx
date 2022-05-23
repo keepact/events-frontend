@@ -67,7 +67,7 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
   return (
     <Modal show={show} onHide={() => setShowModal(false)}>
       <Toast
-        message={showToast.isError ? `${showToast.errorMessage ? showToast.errorMessage : ""}` : "Added"}
+        message={showToast.isError ? `${showToast.errorMessage}` : "Added"}
         showToast={showToast}
         setShowToast={setShowToast}
       />
