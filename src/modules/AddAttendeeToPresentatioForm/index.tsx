@@ -1,12 +1,14 @@
 import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "../../components/Input";
-import { Select } from "../../components/Select";
 
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback } from "react";
-import { IPresentation } from "../../@types";
+import { useCallback, useState } from "react";
+import { IPresentation, IToastState } from "../../@types";
+
+import { Input } from "../../components/Input";
+import { Select } from "../../components/Select";
+import { Toast } from "../../components/Toast";
 
 interface IAddAttendeeToPresentatioForm {
   email: string;
@@ -20,6 +22,8 @@ interface IProps {
 }
 
 const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, setShowModal }) => {
+  const [showToast, setShowToast] = useState<IToastState>({ isError: false, visible: false });
+
   const addAttendeeToPresentatioFormValidationSchema = Yup.object({
     email: Yup.string().email().required("Email is required."),
     presentationId: Yup.string().required("Presentation id is required."),
@@ -31,22 +35,39 @@ const AddAttendeeToPresentatioForm: React.FC<IProps> = ({ presentations, show, s
 
   const onSubmit = useCallback<SubmitHandler<IAddAttendeeToPresentatioForm>>(
     async attendee => {
-      const data = await fetch(`${import.meta.env.VITE_BASE_URL}/presentations/${attendee.presentationId}/attendees/${attendee.email}`, {
-        method: "PUT",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      });
-      const content = await data.json();
-      setShowModal(false);
-      return content;
+      try {
+        const data = await fetch(`${import.meta.env.VITE_BASE_URL}/presentations/${attendee.presentationId}/attendees/${attendee.email}`, {
+          method: "PUT",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        });
+        const content = await data.json()
+
+        if (content.error) {
+          console.log("error", content.error);
+          setShowToast({ isError: true, visible: true, errorMessage: content.error })
+        } else {
+          setShowToast({ isError: false, visible: true })
+          setTimeout(() => {
+            setShowModal(false);
+          }, 2000)
+        }
+      } catch ({ error }) {
+        setShowToast({ isError: true, visible: true, errorMessage: error })
+      }
     },
     [],
   );
 
   return (
     <Modal show={show} onHide={() => setShowModal(false)}>
+      <Toast
+        message={showToast.isError ? `${showToast.errorMessage ? showToast.errorMessage : ""}` : "Added"}
+        showToast={showToast}
+        setShowToast={setShowToast}
+      />
       <Modal.Header closeButton>
         <Modal.Title>Add Attendee to Presentation</Modal.Title>
       </Modal.Header>

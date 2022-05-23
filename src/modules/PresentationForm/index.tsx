@@ -1,9 +1,12 @@
 import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "../../components/Input";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+
+import { Input } from "../../components/Input";
+import { Toast } from "../../components/Toast";
+import { IToastState } from "../../@types";
 
 interface IPresentationForm {
   details: string;
@@ -21,6 +24,12 @@ interface IProps {
 }
 
 const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
+  const [showToast, setShowToast] = useState<IToastState>({
+    isError: false,
+    visible: false,
+    errorMessage: undefined,
+  });
+
   const presentationValidationSchema = Yup.object({
     details: Yup.string().required("Details is required."),
     room: Yup.string().required("Room is required."),
@@ -55,11 +64,19 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
           body: JSON.stringify(presentation)
         });
         const content = await data.json();
-        reload(true);
-        setShowModal(false);
+
+        if (content.error) {
+          setShowToast({ isError: true, visible: true, errorMessage: content.error })
+        } else {
+          setShowToast({ isError: false, visible: true })
+          setTimeout(() => {
+            setShowModal(false);
+            reload(true);
+          }, 2000)
+        }
         return content;
-      } catch (err) {
-        console.log(err)
+      } catch ({ error }) {
+        setShowToast({ isError: true, visible: true, errorMessage: error })
       }
     },
     [],
@@ -67,6 +84,11 @@ const PresentationForm: React.FC<IProps> = ({ show, setShowModal, reload }) => {
 
   return (
     <Modal show={show} onHide={() => setShowModal(false)}>
+      <Toast
+        message={showToast.isError ? `${showToast.errorMessage ? showToast.errorMessage : ""}` : "Added"}
+        showToast={showToast}
+        setShowToast={setShowToast}
+      />
       <Modal.Header closeButton>
         <Modal.Title>Add Presentation</Modal.Title>
       </Modal.Header>

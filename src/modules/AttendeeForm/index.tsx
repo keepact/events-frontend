@@ -1,9 +1,12 @@
 import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "../../components/Input";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+
+import { Input } from "../../components/Input";
+import { Toast } from "../../components/Toast";
+import { IToastState } from "../../@types";
 
 interface IAttendeeForm {
   name: string;
@@ -17,6 +20,12 @@ interface IProps {
 }
 
 const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
+  const [showToast, setShowToast] = useState<IToastState>({
+    isError: false,
+    visible: false,
+    errorMessage: undefined
+  });
+
   const attendeeValidationSchema = Yup.object({
     name: Yup.string().required("Name is required."),
     company: Yup.string().required("Company is required."),
@@ -29,23 +38,39 @@ const AttendeeForm: React.FC<IProps> = ({ show, setShowModal }) => {
 
   const onSubmit = useCallback<SubmitHandler<IAttendeeForm>>(
     async attendee => {
-      const data = await fetch(`${import.meta.env.VITE_BASE_URL}/attendees`, {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(attendee)
-      });
-      const content = await data.json();
-      setShowModal(false);
-      return content;
+      try {
+        const data = await fetch(`${import.meta.env.VITE_BASE_URL}/attendees`, {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(attendee)
+        })
+        const content = await data.json()
+        if (content.error) {
+          setShowToast({ isError: true, visible: true, errorMessage: content.error })
+        } else {
+          setShowToast({ isError: false, visible: true })
+          setTimeout(() => {
+            setShowModal(false);
+          }, 2000)
+        }
+        return content
+      } catch ({ error }) {
+        setShowToast({ isError: true, visible: true, errorMessage: error })
+      }
     },
     [],
   );
 
   return (
     <Modal show={show} onHide={() => setShowModal(false)}>
+      <Toast
+        message={showToast.isError ? `${showToast.errorMessage ? showToast.errorMessage : ""}` : "Added"}
+        showToast={showToast}
+        setShowToast={setShowToast}
+      />
       <Modal.Header closeButton>
         <Modal.Title>Add Attendee</Modal.Title>
       </Modal.Header>
